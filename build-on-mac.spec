@@ -25,6 +25,6 @@ exe = EXE(pyz,
           upx=True,
           console=False , icon='images/icon-256.icns')
 app = BUNDLE(exe,
-             name='Tasmota-PyFlasher-4.0.app',
+             name='Tasmota-PyFlasher-1.0.app',
              icon='./images/icon-256.icns',
              bundle_identifier='com.frightanic.tasmota-pyflasher')

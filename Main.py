@@ -275,20 +275,6 @@ class TasmotaFlasher(wx.Frame):
         baud_label = wx.StaticText(panel, label="")
         flashmode_label = wx.StaticText(panel, label="")
 
-        # def on_info_hover(event):
-        #     from HtmlPopupTransientWindow import HtmlPopupTransientWindow
-        #     win = HtmlPopupTransientWindow(self, wx.SIMPLE_BORDER, __flash_help__, "#FFB6C1", (410, 140))
-
-        #     image = event.GetEventObject()
-        #     image_position = image.ClientToScreen((0, 0))
-        #     image_size = image.GetSize()
-        #     win.Position(image_position, (0, image_size[1]))
-
-        #     win.Popup()
-
-        # icon = wx.StaticBitmap(panel, wx.ID_ANY, images.Info.GetBitmap())
-        # icon.Bind(wx.EVT_MOTION, on_info_hover)
-
         flashmode_label_boxsizer = wx.BoxSizer(wx.HORIZONTAL)
         # flashmode_label_boxsizer.Add(flashmode_label, 1, wx.EXPAND)
         # flashmode_label_boxsizer.AddStretchSpacer(0)
