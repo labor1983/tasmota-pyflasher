@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #rm -fr build dist
 VERSION=4.0
-NAME=NodeMCU-PyFlasher
+NAME=Tasmota-PyFlasher
 
 pyinstaller --log-level=DEBUG \
             --noconfirm \

@@ -2,7 +2,7 @@
 
 block_cipher = None
 
-a = Analysis(['nodemcu-pyflasher.py'],
+a = Analysis(['tasmota-pyflasher.py'],
              binaries=[],
              datas=[("images", "images")],
              hiddenimports=[],
@@ -19,7 +19,7 @@ exe = EXE(pyz,
           a.binaries,
           a.zipfiles,
           a.datas,
-          name='NodeMCU-PyFlasher-4.0',
+          name='Tasmota-PyFlasher-4.0',
           debug=False,
           strip=False,
           upx=True,
