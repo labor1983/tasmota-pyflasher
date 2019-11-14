@@ -37,7 +37,7 @@ pip install -U \
 
 ## Why?
 
-There is no easy tool for flashing Tasmota 
+There is no GUI flashing tool with the needed Tasmota default settings 
 
 ## License
 [MIT](http://opensource.org/licenses/MIT)
