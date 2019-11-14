@@ -11,10 +11,12 @@ Self-contained [Tasmota](https://https://github.com/arendst/Tasmota) flasher wit
 Tasmota PyFlasher doesn't have to be installed, just double-click it and it'll start. Check the [releases section](https://github.com/Jason2866/tasmota-pyflasher/releases) for download.
 
 ## Getting help
-In the unlikely event that you're stuck with this simple tool the best way to get help is to turn to the ["Tools and IDE" subforum on esp8266.com](http://www.esp8266.com/viewforum.php?f=22).
+In the unlikely event that you're stuck with this simple tool the best way to get help is 
+to turn to the ["Tools and IDE" subforum on esp8266.com](http://www.esp8266.com/viewforum.php?f=22).
 
 ## Donationware
-Show your love and support for open-source development by donating to the Author of the original tool (NodeMCU PyFlasher).
+Show your love and support for open-source development by donating
+to the Author of the original tool (NodeMCU PyFlasher).
 
 ## Build it yourself
 If you want to build this application yourself you need to:
@@ -38,4 +40,4 @@ pip install -U \
 There is no easy tool for flashing Tasmota 
 
 ## License
-[MIT](http://opensource.org/licenses/MIT) © Marcel Stör
+[MIT](http://opensource.org/licenses/MIT)
