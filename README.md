@@ -1,5 +1,5 @@
 # Tasmota PyFlasher
-[![License](https://tbd/images/mit-license-badge.svg)](https://github.com/tbd/blob/master/LICENSE)
+[![License](https://github.com/Jason2866/tasmota-pyflasher/blob/master/LICENSE)
 [![Github Releases](https://img.shields.io/github/downloads/marcelstoer/nodemcu-pyflasher/total.svg?style=flat)](https://github.com/marcelstoer/nodemcu-pyflasher/releases)
 
 
@@ -35,7 +35,7 @@ pip install -U \
 
 ## Why?
 
-There is no easy perfect tool to flash Tasmota 
+There is no easy tool for flashing Tasmota 
 
 ## License
 [MIT](http://opensource.org/licenses/MIT) © Marcel Stör
