@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #rm -fr build dist
-VERSION=4.0
+VERSION=1.0
 NAME=Tasmota-PyFlasher
 
 pyinstaller --log-level=DEBUG \

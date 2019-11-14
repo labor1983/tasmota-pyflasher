@@ -1,22 +1,18 @@
 # Tasmota PyFlasher
-[![License](https://marcelstoer.github.io/nodemcu-pyflasher/images/mit-license-badge.svg)](https://github.com/marcelstoer/nodemcu-pyflasher/blob/master/LICENSE)
-[![Github Releases](https://img.shields.io/github/downloads/Jason2866/tasmota-pyflasher/total.svg?style=flat)](https://github.com/Jason2866/tasmota-pyflasher/releases)
+Simple GUI tool for flashing [Tasmota](https://https://github.com/arendst/Tasmota) firmware wihout any installation. Forked from [NodeMCU Pyflasher](https://github.com/marcelstoer/nodemcu-pyflasher) (based on [esptool.py](https://github.com/espressif/esptool) and [wxPython](https://www.wxpython.org/)).
 
-
-Self-contained [Tasmota](https://https://github.com/arendst/Tasmota) flasher with GUI based on [esptool.py](https://github.com/espressif/esptool) and [wxPython](https://www.wxpython.org/).
-
-![Image of Tasmota PyFlasher GUI](images/gui.png)
+![Tasmota PyFlasher GUI](images/gui.png)
 
 ## Installation
-Tasmota PyFlasher doesn't have to be installed, just double-click it and it'll start. Check the [releases section](https://github.com/Jason2866/tasmota-pyflasher/releases) for download.
+Tasmota PyFlasher doesn't have to be installed, just double-click it and it'll start. Check the [releases section](releases/) for download.
 
 ## Getting help
-In the unlikely event that you're stuck with this simple tool the best way to get help is 
-to turn to [Tasmota Discord](https://discord.gg/Ks2Kzd4).
+In the unlikely event that you're stuck with this simple tool the best way to get help is [Tasmota Discord](https://discord.gg/Ks2Kzd4).
+
+For flashing instructions and toubleshooting visit [Tasmota Wiki](http://tasmota.com)
 
 ## Donationware
-Show your love and support for open-source development by donating
-to the Author of the original tool (NodeMCU PyFlasher).
+Show your love and support for open-source development by [donating to the author](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HFN4ZMET5XS2Q) of the original tool - [NodeMCU PyFlasher](https://github.com/marcelstoer/nodemcu-pyflasher).
 
 ## Build it yourself
 If you want to build this application yourself you need to:
@@ -37,7 +33,9 @@ pip install -U \
 
 ## Why?
 
-There is no GUI flashing tool with the needed Tasmota default settings 
+There was no GUI flashing tool with the needed Tasmota default settings.
 
 ## License
+[![License](https://marcelstoer.github.io/nodemcu-pyflasher/images/mit-license-badge.svg)](https://github.com/tasmota/tasmota-pyflasher/blob/master/LICENSE)
+
 [MIT](http://opensource.org/licenses/MIT)

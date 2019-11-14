@@ -18,22 +18,9 @@ from esptool import NotImplementedInROMError
 from esptool import FatalError
 from argparse import Namespace
 
-__version__ = "4.0"
-__flash_help__ = '''
-<p>This setting is highly dependent on your device!<p>
-<p>
-  Details at <a style="color: #004CE5;"
-        href="https://www.esp32.com/viewtopic.php?p=5523&sid=08ef44e13610ecf2a2a33bb173b0fd5c#p5523">http://bit.ly/2v5Rd32</a>
-  and in the <a style="color: #004CE5;" href="https://github.com/espressif/esptool/#flash-modes">esptool
-  documentation</a>
-<ul>
-  <li>Tasmota requires DOUT.</li>
-</ul>
-</p>
-'''
 __auto_select__ = "Auto-select"
 __auto_select_explanation__ = "(first port with Espressif device)"
-__supported_baud_rates__ = [9600, 57600, 74880, 115200, 230400, 460800, 921600]
+__supported_baud_rates__ = [115200]
 
 # ---------------------------------------------------------------------------
 
@@ -73,28 +60,34 @@ class FlashingThread(threading.Thread):
     def run(self):
         try:
             command = []
-
-            if not self._config.port.startswith(__auto_select__):
-                command.append("--port")
-                command.append(self._config.port)
-
-            command.extend(["--baud", str(self._config.baud),
+            if self._config.port:
+              if not self._config.firmware_path:
+                print ("Missing path to Tasmota firmware binary!")
+                raise Exception("Missing path to Tasmota firmware binary!")
+              if not self._config.port.startswith(__auto_select__):
+                  command.append("--port")
+                  command.append(self._config.port)
+                  
+              command.extend(["--baud", str(self._config.baud),
                             "--after", "no_reset",
                             "write_flash",
                             "--flash_mode", self._config.mode,
                             "0x00000", self._config.firmware_path])
 
-            if self._config.erase_before_flash:
-                command.append("--erase-all")
+              if self._config.erase_before_flash:
+                  command.append("--erase-all")
 
-            print("Command: esptool.py %s\n" % " ".join(command))
+              print("Command: esptool.py %s\n" % " ".join(command))
 
-            esptool.main(command)
+              esptool.main(command)
 
-            # The last line printed by esptool is "Staying in bootloader." -> some indication that the process is
-            # done is needed
-            print("\nFirmware successfully flashed. Unplug/replug or reset device \nto switch back to normal boot "
-                  "mode.")
+              # The last line printed by esptool is "Staying in bootloader." -> some indication that the process is
+              # done is needed
+              print("\nFirmware successfully flashed. Unplug/replug or reset device \nto switch back to normal boot "
+                    "mode.")
+            else:
+              print("You need to select a port!")
+
         except SerialException as e:
             self._parent.report_error(e.strerror)
             raise e
@@ -151,32 +144,35 @@ class TasmotaFlasher(wx.Frame):
 
         self._build_status_bar()
         self._set_icons()
-        self._build_menu_bar()
+        # self._build_menu_bar()
         self._init_ui()
 
         sys.stdout = RedirectText(self.console_ctrl)
 
         self.Centre(wx.BOTH)
         self.Show(True)
-        print("Connect your device")
-        print("\nIf you chose the serial port auto-select feature you might need to ")
-        print("turn off Bluetooth")
+        print("1. Connect your device")
+        print("\n2. Choose serial port or auto-select")
+        print("\n3. Browse to the Tasmota firmware binary")
+        print("\n4. Click on \"Flash Tasmota\" and wait until done")
+        print("\n-----\nIf you chose the serial port auto-select feature ")
+        print("you might need to turn off Bluetooth")
 
     def _init_ui(self):
         def on_reload(event):
             self.choice.SetItems(self._get_serial_ports())
 
-        def on_baud_changed(event):
-            radio_button = event.GetEventObject()
+        # def on_baud_changed(event):
+        #     radio_button = event.GetEventObject()
 
-            if radio_button.GetValue():
-                self._config.baud = radio_button.rate
+        #     if radio_button.GetValue():
+        #         self._config.baud = radio_button.rate
 
-        def on_mode_changed(event):
-            radio_button = event.GetEventObject()
+        # def on_mode_changed(event):
+        #     radio_button = event.GetEventObject()
 
-            if radio_button.GetValue():
-                self._config.mode = radio_button.mode
+        #     if radio_button.GetValue():
+        #         self._config.mode = radio_button.mode
 
         def on_erase_changed(event):
             radio_button = event.GetEventObject()
@@ -209,7 +205,7 @@ class TasmotaFlasher(wx.Frame):
         reload_button = wx.BitmapButton(panel, id=wx.ID_ANY, bitmap=bmp,
                                         size=(bmp.GetWidth() + 7, bmp.GetHeight() + 7))
         reload_button.Bind(wx.EVT_BUTTON, on_reload)
-        reload_button.SetToolTip("Reload serial device list")
+        reload_button.SetToolTip("Refresh serial device list")
 
         file_picker = wx.FilePickerCtrl(panel, style=wx.FLP_USE_TEXTCTRL)
         file_picker.Bind(wx.EVT_FILEPICKER_CHANGED, on_pick_file)
@@ -221,33 +217,33 @@ class TasmotaFlasher(wx.Frame):
 
         baud_boxsizer = wx.BoxSizer(wx.HORIZONTAL)
 
-        def add_baud_radio_button(sizer, index, baud_rate):
-            style = wx.RB_GROUP if index == 0 else 0
-            radio_button = wx.RadioButton(panel, name="baud-%d" % baud_rate, label="%d" % baud_rate, style=style)
-            radio_button.rate = baud_rate
-            # sets default value
-            radio_button.SetValue(baud_rate == self._config.baud)
-            radio_button.Bind(wx.EVT_RADIOBUTTON, on_baud_changed)
-            sizer.Add(radio_button)
-            sizer.AddSpacer(10)
+        # def add_baud_radio_button(sizer, index, baud_rate):
+        #     style = wx.RB_GROUP if index == 0 else 0
+            # radio_button = wx.RadioButton(panel, name="baud-%d" % baud_rate, label="%d" % baud_rate, style=style)
+            # radio_button.rate = baud_rate
+            # # sets default value
+            # radio_button.SetValue(baud_rate == self._config.baud)
+            # radio_button.Bind(wx.EVT_RADIOBUTTON, on_baud_changed)
+            # sizer.Add(radio_button)
+            # sizer.AddSpacer(10)
 
-        for idx, rate in enumerate(__supported_baud_rates__):
-            add_baud_radio_button(baud_boxsizer, idx, rate)
+        # for idx, rate in enumerate(__supported_baud_rates__):
+        #     add_baud_radio_button(baud_boxsizer, idx, rate)
 
         flashmode_boxsizer = wx.BoxSizer(wx.HORIZONTAL)
 
         def add_flash_mode_radio_button(sizer, index, mode, label):
             style = wx.RB_GROUP if index == 0 else 0
-            radio_button = wx.RadioButton(panel, name="mode-%s" % mode, label="%s" % label, style=style)
-            radio_button.Bind(wx.EVT_RADIOBUTTON, on_mode_changed)
-            radio_button.mode = mode
-            radio_button.SetValue(mode == self._config.mode)
-            sizer.Add(radio_button)
-            sizer.AddSpacer(10)
+            # radio_button = wx.RadioButton(panel, name="mode-%s" % mode, label="%s" % label, style=style)
+            # radio_button.Bind(wx.EVT_RADIOBUTTON, on_mode_changed)
+            # radio_button.mode = mode
+            # radio_button.SetValue(mode == self._config.mode)
+            # sizer.Add(radio_button)
+            # sizer.AddSpacer(10)
 
-        add_flash_mode_radio_button(flashmode_boxsizer, 0, "qio", "Quad I/O (QIO)")
-        add_flash_mode_radio_button(flashmode_boxsizer, 1, "dio", "Dual I/O (DIO)")
-        add_flash_mode_radio_button(flashmode_boxsizer, 2, "dout", "Dual Output (DOUT)")
+        # add_flash_mode_radio_button(flashmode_boxsizer, 0, "qio", "Quad I/O (QIO)")
+        # add_flash_mode_radio_button(flashmode_boxsizer, 1, "dio", "Dual I/O (DIO)")
+        # add_flash_mode_radio_button(flashmode_boxsizer, 2, "dout", "Dual Output (DOUT)")
 
         erase_boxsizer = wx.BoxSizer(wx.HORIZONTAL)
 
@@ -262,9 +258,9 @@ class TasmotaFlasher(wx.Frame):
 
         erase = self._config.erase_before_flash
         add_erase_radio_button(erase_boxsizer, 0, False, "no", erase is False)
-        add_erase_radio_button(erase_boxsizer, 1, True, "yes, wipes all data", erase is True)
+        add_erase_radio_button(erase_boxsizer, 1, True, "yes, wipe all data!!!", erase is True)
 
-        button = wx.Button(panel, -1, "Flash ESP8266")
+        button = wx.Button(panel, -1, "Flash Tasmota")
         button.Bind(wx.EVT_BUTTON, on_clicked)
 
         self.console_ctrl = wx.TextCtrl(panel, style=wx.TE_MULTILINE | wx.TE_READONLY | wx.HSCROLL)
@@ -276,27 +272,27 @@ class TasmotaFlasher(wx.Frame):
 
         port_label = wx.StaticText(panel, label="Serial port")
         file_label = wx.StaticText(panel, label="Tasmota firmware")
-        baud_label = wx.StaticText(panel, label="Baud rate")
-        flashmode_label = wx.StaticText(panel, label="Flash mode")
+        baud_label = wx.StaticText(panel, label="")
+        flashmode_label = wx.StaticText(panel, label="")
 
-        def on_info_hover(event):
-            from HtmlPopupTransientWindow import HtmlPopupTransientWindow
-            win = HtmlPopupTransientWindow(self, wx.SIMPLE_BORDER, __flash_help__, "#FFB6C1", (410, 140))
+        # def on_info_hover(event):
+        #     from HtmlPopupTransientWindow import HtmlPopupTransientWindow
+        #     win = HtmlPopupTransientWindow(self, wx.SIMPLE_BORDER, __flash_help__, "#FFB6C1", (410, 140))
 
-            image = event.GetEventObject()
-            image_position = image.ClientToScreen((0, 0))
-            image_size = image.GetSize()
-            win.Position(image_position, (0, image_size[1]))
+        #     image = event.GetEventObject()
+        #     image_position = image.ClientToScreen((0, 0))
+        #     image_size = image.GetSize()
+        #     win.Position(image_position, (0, image_size[1]))
 
-            win.Popup()
+        #     win.Popup()
 
-        icon = wx.StaticBitmap(panel, wx.ID_ANY, images.Info.GetBitmap())
-        icon.Bind(wx.EVT_MOTION, on_info_hover)
+        # icon = wx.StaticBitmap(panel, wx.ID_ANY, images.Info.GetBitmap())
+        # icon.Bind(wx.EVT_MOTION, on_info_hover)
 
         flashmode_label_boxsizer = wx.BoxSizer(wx.HORIZONTAL)
-        flashmode_label_boxsizer.Add(flashmode_label, 1, wx.EXPAND)
-        flashmode_label_boxsizer.AddStretchSpacer(0)
-        flashmode_label_boxsizer.Add(icon, 0, wx.ALIGN_RIGHT, 20)
+        # flashmode_label_boxsizer.Add(flashmode_label, 1, wx.EXPAND)
+        # flashmode_label_boxsizer.AddStretchSpacer(0)
+        # flashmode_label_boxsizer.Add(icon, 0, wx.ALIGN_RIGHT, 20)
 
         erase_label = wx.StaticText(panel, label="Erase flash")
         console_label = wx.StaticText(panel, label="Console")
@@ -304,12 +300,12 @@ class TasmotaFlasher(wx.Frame):
         fgs.AddMany([
                     port_label, (serial_boxsizer, 1, wx.EXPAND),
                     file_label, (file_picker, 1, wx.EXPAND),
-                    baud_label, baud_boxsizer,
-                    flashmode_label_boxsizer, flashmode_boxsizer,
+                    # baud_label, baud_boxsizer,
                     erase_label, erase_boxsizer,
+                    flashmode_label_boxsizer, flashmode_boxsizer,
                     (wx.StaticText(panel, label="")), (button, 1, wx.EXPAND),
                     (console_label, 1, wx.EXPAND), (self.console_ctrl, 1, wx.EXPAND)])
-        fgs.AddGrowableRow(6, 1)
+        fgs.AddGrowableRow(5, 1)
         fgs.AddGrowableCol(1, 1)
         hbox.Add(fgs, proportion=2, flag=wx.ALL | wx.EXPAND, border=15)
         panel.SetSizer(hbox)
@@ -335,27 +331,27 @@ class TasmotaFlasher(wx.Frame):
     def _build_status_bar(self):
         self.statusBar = self.CreateStatusBar(2, wx.STB_SIZEGRIP)
         self.statusBar.SetStatusWidths([-2, -1])
-        status_text = "Welcome to Tasmota PyFlasher %s" % __version__
+        status_text = "Flash Tasmota the simple way..."
         self.statusBar.SetStatusText(status_text, 0)
 
-    def _build_menu_bar(self):
-        self.menuBar = wx.MenuBar()
+    # def _build_menu_bar(self):
+    #     self.menuBar = wx.MenuBar()
 
-        # File menu
-        file_menu = wx.Menu()
-        wx.App.SetMacExitMenuItemId(wx.ID_EXIT)
-        exit_item = file_menu.Append(wx.ID_EXIT, "E&xit\tCtrl-Q", "Exit Tasmota PyFlasher")
-        exit_item.SetBitmap(images.Exit.GetBitmap())
-        self.Bind(wx.EVT_MENU, self._on_exit_app, exit_item)
-        self.menuBar.Append(file_menu, "&File")
+        # # File menu
+        # file_menu = wx.Menu()
+        # wx.App.SetMacExitMenuItemId(wx.ID_EXIT)
+        # exit_item = file_menu.Append(wx.ID_EXIT, "E&xit\tCtrl-Q", "Exit Tasmota PyFlasher")
+        # exit_item.SetBitmap(images.Exit.GetBitmap())
+        # self.Bind(wx.EVT_MENU, self._on_exit_app, exit_item)
+        # self.menuBar.Append(file_menu, "&File")
 
-        # Help menu
-        help_menu = wx.Menu()
-        help_item = help_menu.Append(wx.ID_ABOUT, '&About Tasmota PyFlasher', 'About')
-        self.Bind(wx.EVT_MENU, self._on_help_about, help_item)
-        self.menuBar.Append(help_menu, '&Help')
+        # # Help menu
+        # help_menu = wx.Menu()
+        # help_item = help_menu.Append(wx.ID_ABOUT, '&About Tasmota PyFlasher', 'About')
+        # self.Bind(wx.EVT_MENU, self._on_help_about, help_item)
+        # self.menuBar.Append(help_menu, '&Help')
 
-        self.SetMenuBar(self.menuBar)
+        # self.SetMenuBar(self.menuBar)
 
     @staticmethod
     def _get_config_file_path():
@@ -366,11 +362,11 @@ class TasmotaFlasher(wx.Frame):
         self._config.safe(self._get_config_file_path())
         self.Close(True)
 
-    def _on_help_about(self, event):
-        from About import AboutDlg
-        about = AboutDlg(self)
-        about.ShowModal()
-        about.Destroy()
+    # def _on_help_about(self, event):
+    #     from About import AboutDlg
+    #     about = AboutDlg(self)
+    #     about.ShowModal()
+    #     about.Destroy()
 
     def report_error(self, message):
         self.console_ctrl.SetValue(message)
@@ -440,4 +436,3 @@ def main():
 if __name__ == '__main__':
     __name__ = 'Main'
     main()
-
