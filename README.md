@@ -12,7 +12,7 @@ Tasmota PyFlasher doesn't have to be installed, just double-click it and it'll s
 
 ## Getting help
 In the unlikely event that you're stuck with this simple tool the best way to get help is 
-to turn to the ["Tools and IDE" subforum on esp8266.com](http://www.esp8266.com/viewforum.php?f=22).
+to turn to [Tasmota Discord](https://discord.gg/Ks2Kzd4).
 
 ## Donationware
 Show your love and support for open-source development by donating
