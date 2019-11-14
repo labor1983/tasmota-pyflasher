@@ -1,6 +1,6 @@
 # Tasmota PyFlasher
-[![License](https://github.com/Jason2866/tasmota-pyflasher/blob/master/LICENSE)
-[![Github Releases](https://img.shields.io/github/downloads/marcelstoer/nodemcu-pyflasher/total.svg?style=flat)](https://github.com/marcelstoer/nodemcu-pyflasher/releases)
+[![License]((https://marcelstoer.github.io/nodemcu-pyflasher/images/mit-license-badge.svg)
+[![Github Releases](https://img.shields.io/github/downloads/Jason2866/tasmota-pyflasher/total.svg?style=flat)](https://github.com/marcelstoer/nodemcu-pyflasher/releases)
 
 
 Self-contained [Tasmota](https://https://github.com/arendst/Tasmota) flasher with GUI based on [esptool.py](https://github.com/espressif/esptool) and [wxPython](https://www.wxpython.org/).
