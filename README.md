@@ -1,6 +1,6 @@
 # Tasmota PyFlasher
 
-![GitHub Releases](https://img.shields.io/github/downloads/tasmota/tasmota-pyflasher/1.0/total?label=downloads&color=%231FA3EC&style=for-the-badge) [![GitHub](https://img.shields.io/github/license/tasmota/tasmota-pyflasher?color=1FA3EC&style=for-the-badge)](https://github.com/tasmota/tasmota-pyflasher/blob/v1/LICENSE) [![Discord](https://img.shields.io/discord/479389167382691863?color=1FA3EC&style=for-the-badge)](https://discord.gg/BdEwrjw)
+[![GitHub Releases](https://img.shields.io/github/downloads/tasmota/tasmota-pyflasher/1.0/total?label=downloads&color=%231FA3EC&style=for-the-badge)](https://github.com/tasmota/tasmota-pyflasher/releases/latest) [![GitHub](https://img.shields.io/github/license/tasmota/tasmota-pyflasher?color=1FA3EC&style=for-the-badge)](https://github.com/tasmota/tasmota-pyflasher/blob/v1/LICENSE) [![Discord](https://img.shields.io/discord/479389167382691863?color=1FA3EC&style=for-the-badge)](https://discord.gg/BdEwrjw)
 
 Simple GUI tool for flashing [Tasmota](https://https://github.com/arendst/Tasmota) firmware wihout any installation. Forked from [NodeMCU Pyflasher](https://github.com/marcelstoer/nodemcu-pyflasher) (based on [esptool.py](https://github.com/espressif/esptool) and [wxPython](https://www.wxpython.org/)).
 
