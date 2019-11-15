@@ -36,6 +36,6 @@ pip install -U \
 There was no GUI flashing tool with the needed Tasmota default settings.
 
 ## License
-[![License](https://marcelstoer.github.io/nodemcu-pyflasher/images/mit-license-badge.svg)](https://github.com/tasmota/tasmota-pyflasher/v1/LICENSE)
+[![License](https://marcelstoer.github.io/nodemcu-pyflasher/images/mit-license-badge.svg)](https://github.com/tasmota/tasmota-pyflasher/blob/v1/LICENSE)
 
 [MIT](http://opensource.org/licenses/MIT)
