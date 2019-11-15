@@ -4,7 +4,7 @@ Simple GUI tool for flashing [Tasmota](https://https://github.com/arendst/Tasmot
 ![Tasmota PyFlasher GUI](images/gui.png)
 
 ## Installation
-Tasmota PyFlasher doesn't have to be installed, just double-click it and it'll start. Check the [releases section](releases/) for download.
+Tasmota PyFlasher doesn't have to be installed, just double-click it and it'll start. Check the [releases section](https://github.com/tasmota/tasmota-pyflasher/releases) for download.
 
 ## Getting help
 In the unlikely event that you're stuck with this simple tool the best way to get help is [Tasmota Discord](https://discord.gg/Ks2Kzd4).
