@@ -1,0 +1,19 @@
+Tested on Windows 10 Home (x64)
+
+esptool==2.6 		--> already included inside the "tasmota-pyflasher" - folder (esptool.py)
+wxPython==4.0.4 	--> pip install -U wxPython
+PyInstaller==3.4 	--> pip install pyinstaller
+pySerial 			--> pip install pyserial
+
+* open Windows PowerShell (Administrator) with keyboard combination "Windows Key + x"
+* check that python is installed --> type python in the powerShell (no mather where you are)
+* you should see something like:
+	Python 3.8.1 (tags/v3.8.1:1b293b6, Dec 18 2019, 22:39:24) [MSC v.1916 32 bit (Intel)] on win32
+	Type "help", "copyright", "credits" or "license" for more information.
+	>>>
+* type "exit()" after the ">>>" prompt to leave the python shell
+* now type "python -m pip install --upgrade pip"
+* now type "pip install -U wxPython"
+* now type "pip install pyinstaller"
+* now type "pip install pyserial"
+* next --> double klick on "tasmota-pyflasher.py" and it should start
